@@ -1,0 +1,52 @@
+<desktop>
+    <permissions>
+         <permission id="finance_ar_index">销售应收单</permission>
+         <permission id="finance_bill_sale">收退款单</permission>
+         <permission id="finance_bill_index">费用账单</permission>
+         <permission id="finance_ar_verification_index">应收对冲</permission>
+         <permission id="finance_verification_index">核销日志</permission>
+         <permission id="finance_bill_order_index">订单收支明细</permission>
+         <permission id="finance_bill_setting_index">费用项管理</permission>
+         <permission id="finance_bill_setting_init">期初初始化</permission>
+         <permission id="finance_tasklog_index">定时任务日志</permission>
+		 <permission id="finance_monthend_index">月末结账</permission>
+         <permission id="finance_bill_confirm">无归属账单</permission>
+         <permission id="finance_bills_analysis">费用统计</permission>
+    </permissions>  
+    <workground name="财务" id="finance_center"  order="3000">
+        <menugroup name="销售应收单">
+            <menu controller='ar' action='index' permission='finance_ar_index' display='true' order='3000106'>销售应收单</menu>
+        </menugroup> 
+        <menugroup name="销售收款单">
+            <menu controller='bill' action='sale' permission='finance_bill_sale' display='true' order='3000107'>收退款单</menu>
+            <menu controller='bill' action='index' permission='finance_bill_index' display='true' order='3000108'>费用账单</menu>
+        </menugroup>
+        <menugroup name="对账核销">
+            <menu controller='ar_verification' action='index' permission='finance_ar_verification_index' display='true' order='3000109'>应收冲销</menu>
+            <menu controller='verification' action='index' permission='finance_verification_index' display='true' order='3000110'>核销日志</menu>
+        </menugroup> 
+        <menugroup name="收支单导入">
+            <menu controller='bill' action='bill_import' permission='finance_ar_index' display='true' order='3000111'>账单导入</menu>
+            <menu controller='bill_confirm' action='index' permission='finance_bill_confirm' display='true' order='3000112'>账单确认</menu>
+        </menugroup> 
+        <menugroup name="月末结账">
+            <menu controller='monthend' action='index' permission='finance_monthend_index' display='true' order='3000113'>月末结账</menu>
+        </menugroup> 
+        <menugroup name="财务设置">
+            <menu controller='setting_init' action='index' permission='finance_bill_setting_init' display='true' order='3000114'>期初初始化</menu>
+            <menu controller='bill_setting' action='index' permission='finance_bill_setting_index' display='true' order='3000115'>费用设置</menu>
+        </menugroup>
+        <menugroup name="财务报表">
+            <menu controller='bill_order' action='index' permission='finance_bill_order_index' display='true' order='3000116'>订单收支明细</menu>
+            <menu controller='ar_item' action='index' permission='finance_ar_index' display='true' order='3000117'>销售到账明细</menu>
+        </menugroup> 
+        <menugroup name="接口日志">
+            <menu controller='tasklog' action='index' permission='finance_tasklog_index' display='true' order='3000118'>定时任务日志</menu>
+        </menugroup>
+    </workground>
+    <workground name="单据报表" id="invoice_center"  order="1100">
+        <menugroup name="财务报表">
+            <menu controller='analysis_bills' action='index' permission='finance_bills_analysis' display='true' order='300501'>费用统计</menu>
+        </menugroup>
+    </workground>
+</desktop>

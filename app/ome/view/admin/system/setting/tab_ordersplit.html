@@ -1,0 +1,318 @@
+<!--拆单配置-->
+<div class='delivery-cfg-item'>
+    <div class='tableform'>
+        <div class="division">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" class='delivery-cfg-table'>
+                <tbody>
+                    <tr>
+                        <th><{t}>是否启动拆单：<{/t}></th>
+                        <td>
+                            <input type="radio" value="0" class="delivery-cfg-delie" name="set[ome.order.split]" <{if $setData.ome_order_split != '1'}>checked="checked"<{/if}> ><label>关闭拆单</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" value="1" class="delivery-cfg-delie" name="set[ome.order.split]" <{if $setData.ome_order_split == '1'}>checked="checked"<{/if}> ><label>开启拆单</label>&nbsp;&nbsp;
+                            <a target="_blank" href="index.php?app=ome&ctl=admin_operation_log&act=split_logs" style="color:#0066cc; text-decoration:none;" title="详细查看配置历史日志">(详细配置日志)</a>
+                        </td>
+                    </tr>
+                    
+                    <{if $setData.ome_order_split == '1'}>
+                        <tr id="show_split_setting">
+                            <th>&nbsp;</th>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="275" valign="top">
+                                      <div id="split_type_1" <{if $setData.ome_order_split_model == '1'}>class="split_focus"<{else}>class="split_gray"<{/if}> >
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td><strong>拆单方式(<b style="color:#ff0000;">推荐</b>)：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_model]" class="delivery-cfg-delie" value="1" <{if $setData.ome_order_split_model == '1'}>checked="checked"<{/if}> ><label> 按子订单方式进行拆分订单</label></td>
+                                            </tr>
+                                            <tr>
+                                              <td><strong>回写方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td style="line-height:24px;"><span>&nbsp;淘宝、天猫、shopex 支持子订单部分回写<br /><a id="split_type_1a">对于不支持拆单的平台</a></span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_class]" class="delivery-cfg-delie" value="1" <{if $setData.ome_order_split_class == '1'}>checked="checked"<{/if}> ><label > 回写第一张</label>&nbsp;&nbsp;<input type="radio" name="set[ome.order.split_class]" class="delivery-cfg-delie" value="2" <{if $setData.ome_order_split_class == '2'}>checked="checked"<{/if}> ><label > 回写最后一张</label></td>
+                                            </tr>
+                                          </table>
+                                      </div>
+                                  </td>
+                                  <td width="20">&nbsp;</td>
+                                  <td width="275" valign="top">
+                                      <div id="split_type_2" <{if $setData.ome_order_split_model == '2'}>class="split_focus"<{else}>class="split_gray"<{/if}> >
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td><strong>拆单方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_model]" class="delivery-cfg-delie" value="2" <{if $setData.ome_order_split_model == '2'}>checked="checked"<{/if}> ><label> 按sku方式拆分订单</label></td>
+                                            </tr>
+                                            <tr>
+                                              <td><strong>回写方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td style="line-height:24px;"><span>&nbsp;shopex（易开店、EC-Store） 支持sku部分回写<br /><a id="split_type_2a">对于不支持拆单的平台</a></span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_send]" class="delivery-cfg-delie" value="1" <{if $setData.ome_order_split_send == '1'}>checked="checked"<{/if}> ><label > 回写第一张</label>&nbsp;&nbsp;<input type="radio" name="set[ome.order.split_send]" class="delivery-cfg-delie" value="2" <{if $setData.ome_order_split_send == '2'}>checked="checked"<{/if}> ><label > 回写最后一张</label></td>
+                                            </tr>
+                                          </table>
+                                      </div>
+                                  </td>
+                                  <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                      </tr>
+                    <{else}>
+                        <tr id="show_split_setting" style="display:none;">
+                            <th>&nbsp;</th>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="275" valign="top">
+                                      <div id="split_type_1" class="split_focus">
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td><strong>拆单方式(<b style="color:#ff0000;">推荐</b>)：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_model]" class="delivery-cfg-delie" value="1"><label> 按子订单方式进行拆分订单</label></td>
+                                            </tr>
+                                            <tr>
+                                              <td><strong>回写方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td style="line-height:24px;"><span>&nbsp;淘宝、天猫、shopex 支持子订单部分回写<br /><a id="split_type_1a">对于不支持拆单的平台</a></span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_class]" class="delivery-cfg-delie" value="1"><label > 回写第一张</label>&nbsp;&nbsp;<input type="radio" name="set[ome.order.split_class]" class="delivery-cfg-delie" value="2"><label> 回写最后一张</label></td>
+                                            </tr>
+                                          </table>
+                                      </div>
+                                  </td>
+                                  <td width="20">&nbsp;</td>
+                                  <td width="275" valign="top">
+                                      <div id="split_type_2" class="split_focus">
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td><strong>拆单方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_model]" class="delivery-cfg-delie" value="2"><label> 按sku方式拆分订单</label></td>
+                                            </tr>
+                                            <tr>
+                                              <td><strong>回写方式：</strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td style="line-height:24px;"><span>&nbsp;shopex（易开店、EC-Store） 支持sku部分回写<br /><a id="split_type_2a">对于不支持拆单的平台</a></span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;<input type="radio" name="set[ome.order.split_send]" class="delivery-cfg-delie" value="1"><label > 回写第一张</label>&nbsp;&nbsp;<input type="radio" name="set[ome.order.split_send]" class="delivery-cfg-delie" value="2"><label > 回写最后一张</label></td>
+                                            </tr>
+                                          </table>
+                                      </div>
+                                  </td>
+                                  <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                      </tr>
+                    <{/if}>
+                    
+                <{if $order_num}>    
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td><h3>拆单未发货订单列表（<span style="color:#ff0000; font-weight:normal;">温馨提示：如需修改"拆单方式"，请先处理完之前的拆分订单！</span>）</h3></td>
+                    </tr>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td>
+                          <div id="split_rule">
+                              <table class="gridlist" cellpadding="0,cellspacing=0,border=0">
+                                  <thead>
+                                        <tr>
+                                          <th>编号</th>
+                                          <th>订单号</th>
+                                          <th>所属店铺</th>
+                                          <th>确认状态</th>
+                                          <th>发货状态</th>
+                                          <th>订单总额</th>
+                                          <th>最后更新</th>
+                                          <th>拆单数量</th>
+                                          <th>已发货数量</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    <{foreach from=$order_list item=val key=key}>
+                                        <tr>
+                                          <td><{$val.order_id}></td>
+                                          <td><{$val.order_bn}></td>
+                                          <td><{$val.shop_name}></td>
+                                          <td><{$val.process_status}></td>
+                                          <td><{$val.ship_status}></td>
+                                          <td style="text-align:left;"><{$val.total_amount|cur}></td>
+                                          <td><{$val.last_modified|cdate}></td>
+                                          <td><{$val.dly_count}></td>
+                                          <td><strong style="color:#ff0000;"><{$val.dly_succ}></strong></td>
+                                        </tr>
+                                    <{/foreach}>
+                                    <tr>
+                                      <td colspan="9" style="text-align:right;">共<b style="color:#ff0000;"><{$order_num}></b>条记录，查看更多请到订单列表栏目……&nbsp;&nbsp;</td>
+                                    </tr>
+                                    </tbody>
+                              </table>
+                        </div>
+                      </td>
+                    </tr>
+                <{/if}>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td><h3>拆单后平台回写规则</h3></td>
+                    </tr>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td>
+                          <div id="split_rule">
+                              <table class="gridlist" cellpadding="0,cellspacing=0,border=0">
+                                  <thead>
+                                        <tr>
+                                          <th>平台</th>
+                                          <th>拆单回写</th>
+                                          <th>拆单回写的模式</th>
+                                          <th>ERP回写平台规则</th>
+                                      </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr>
+                                          <td>淘宝、天猫、分销王</td>
+                                          <td>支持</td>
+                                          <td>支持子订单拆单回写</td>
+                                          <td>支持子订单拆单后部分回写到前端店铺</td>
+                                        </tr>
+                                        <tr>
+                                          <td>易开店、EC-Store</td>
+                                          <td>支持</td>
+                                          <td>支持SKU拆单回写</td>
+                                          <td>支持任意sku拆单后部分发货回写到前端店铺</td>
+                                        </tr>
+                                        <tr>
+                                          <td>京东等其他平台</td>
+                                          <td>不支持</td>
+                                          <td>不支持</td>
+                                          <td>一次性回写全部到前端店铺</td>
+                                        </tr>
+                                    </tbody>
+                              </table>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td style="color:#ff0000;">
+                        <span style="font-weight:bold;">常见问题：</span><br />
+                        <span style="padding-left:15px;">1、货到付款的订单不支持拆单。</span><br />
+                        <span style="padding-left:15px;">2、淘宝、天猫店铺下来的订单商品明细有被删除情况时，系统则会一次回写全部！</span><br />
+                        <span style="padding-left:15px;">3、一个订单不管拆分成多少张发货单，发货单全部完成发货，订单才会生成一张销售单。</span><br />
+                        <span style="padding-left:15px;">4、所有平台店铺的订单都支持在ERP中拆单操作。</span><br />
+                        <span style="padding-left:15px;">5、自有体系(如：Ecstore、分销王、易开店)部分拆分或部分发货的订单不允许再编辑，其它店铺类型是允许的。</span><br />
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<style type="text/css">
+.split_focus { border:1px solid #3367AC; background:#fff; }
+.split_gray { border:1px solid #ccc; background:#efefef; }
+
+.split_focus strong, .split_gray strong { font-weight:bold; }
+.split_focus a, .split_gray a { color:#0066cc; text-decoration:none; }
+#split_type_1a, #split_type_2a { color:#0066cc; text-decoration:none; }
+#split_rule { width:auto; max-width:800px; }
+#split_rule table { width:800px; }
+#split_rule table td { height:24px; line-height:24px; text-align:center; }
+#split_rule table th { height:26px; line-height:26px; font-weight:bold; text-align:center; }
+</style>
+</div>
+<script>
+$$('input[name=set[ome.order.split]]').addEvent('click',function(e)
+{
+	var value = this.value;
+	var order_num	= parseInt('<{$order_num}>');
+	
+	if(order_num > 0)
+	{
+		alert("还有 "+ order_num +" 条部分拆分的订单，请先处理完毕再关闭拆单功能，\n\n否则发货回写 与 生成销售单会出现问题！");
+		return false;
+	}
+	
+	if(value == '1')
+	{
+		document.getElementById('show_split_setting').style.display	= '';
+	}
+	else
+	{
+		document.getElementById('show_split_setting').style.display	= 'none';
+	}
+});
+
+$$('input[name=set[ome.order.split_model]]').addEvent('click',function(e)
+{
+	var value = this.value;
+	var order_num	= parseInt('<{$order_num}>');
+	
+	if(order_num > 0)
+	{
+		if(!confirm("有未处理完的拆分订单，确定要改变拆分方式？"))
+		{
+			return false;
+		}
+	}
+	
+	if(value == '1')
+	{
+		document.getElementById("split_type_1").className	= "split_focus";
+		document.getElementById("split_type_2").className	= "split_gray";
+		
+		var split_class		= document.getElementsByName("set[ome.order.split_class]");
+		var split_flag		= false;
+		for(var i=0; i<split_class.length; i++)
+		{
+			if(split_class[i].checked == true)
+			{
+				split_flag	= true;
+			}
+		}
+		
+		if(split_flag == false)
+		{
+			split_class[0].checked	= true;
+		}
+	}
+	else
+	{
+		document.getElementById("split_type_1").className	= "split_gray";
+		document.getElementById("split_type_2").className	= "split_focus";
+		
+		var split_send		= document.getElementsByName("set[ome.order.split_send]");
+		var split_flag		= false;
+		for(var i=0; i<split_send.length; i++)
+		{
+			if(split_send[i].checked == true)
+			{
+				split_flag	= true;
+			}
+		}
+		
+		if(split_flag == false)
+		{
+			split_send[0].checked	= true;
+		}
+	}
+});
+</script>

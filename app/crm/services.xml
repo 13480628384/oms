@@ -1,0 +1,8 @@
+<services>
+	<service id="openapi.crm.channel">
+        <class>crm_rpc_response_channel</class>
+    </service>
+    <service id="desktop_finder.crm_mdl_gift">
+        <class>crm_finder_gift</class>
+    </service>
+</services>   

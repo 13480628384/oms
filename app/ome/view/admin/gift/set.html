@@ -1,0 +1,149 @@
+<style>
+    #dataAction label{cursor:pointer;font-size:14px;font-family:Microsoft Yahei;}
+    .tips {text-align:center;padding:5px;font-size:14px;font-family:Microsoft Yahei;color:#F30;}
+    #dataAction .ok {background:url(<{$env.app.res_url}>/ok.png) right no-repeat #FFF;padding:0 20px 0 0;}
+</style>
+
+<div style="padding:0 0 0 0;">
+
+    <div style="margin-bottom:6px;padding:5px 15px; border:0;background:#F0F0F0;border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
+        <span>是否开启本地赠品规则：</span>
+        <{if $gift_on_off == 'on'}>
+            <label><input type="radio" value="on" name="status" onclick="on_off(this)" checked="checked"/>开启</label>
+            <label><input type="radio" value="off" name="status" onclick="on_off(this)" />关闭</label>
+        <{else}>
+            <label><input type="radio" value="on" name="status" onclick="on_off(this)" />开启</label>
+            <label><input type="radio" value="off" name="status" onclick="on_off(this)"  checked="checked"/>关闭</label>
+        <{/if}>
+    </div>
+    <{if $gift_on_off == 'on'}>
+        <div id="dealway" style="margin-bottom:6px;padding:5px 15px; border:0;background:#F0F0F0;border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
+    <{else}>
+        <div id="dealway" style="display:none;margin-bottom:6px;padding:5px 15px; border:0;background:#F0F0F0;border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
+    <{/if}>
+        出错处理：
+        <input  type="radio"  name="error" onclick="dealways(this)" value="off" <{if $gift_error_ways eq 'off'}>checked<{/if}>>不添加赠品，继续审单发货&nbsp;&nbsp;&nbsp;
+        <input  type="radio"  name="error" onclick="dealways(this)" value="on" <{if $gift_error_ways eq 'on'}>checked<{/if}>>打标提醒，并人工处理
+        <span style="color:red;font-weight:bold;">（当添加赠品发生错误，导致添加失败，可选择不添加赠品继续发货；或者，在订单上打标提醒，进行人工处理）</span>
+    </div>
+
+    <div style="margin-bottom:6px;padding:5px 15px; border:0;background:#F0F0F0;border-top:1px solid #bbb;border-bottom:1px solid #bbb;">
+
+        <form id="dataAction" action="index.php?<{$env.server.QUERY_STRING}>" method="POST">
+
+            <h4>当有多个赠品规则时执行：</h4>
+
+            <table>
+                <col width="100" />
+                <tr>
+                    <td align="right" >
+                        <input type="radio" name="set_type" value="include" id="set_type_include" />
+                    </td>
+                    <td>
+                        <label for="set_type_include">赠品规则进行<font color="red">叠加</font></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td><td><font color="gray">说明：当一个客户或者购物订单，符合多个赠品规则时，系统将赠送所有符合的规则中的赠品。同一SKU商品数量将累加。</font></td>
+                </tr>
+                <tr>
+                    <td></td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right" >
+                        <input type="radio" name="set_type" value="exclude" id="set_type_exclude" />
+                    </td>
+                    <td>
+                        <label for="set_type_exclude">赠品规则进行<font color="blue">排他</font></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td><td><font color="gray">说明：当一个客户或者购物订单，符合多个赠品规则时，系统将根据赠品规则的优先级，赠送优先级最高的赠品规则中的商品，当商家未设置赠品优先级、或优先级相同时将赠送最新创建的赠品规则中的商品。</font></td>
+                </tr>
+                <tr>
+                    <td></td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td></td><td>
+                    <button type="button" id="save_set_type">保存</button>
+                </td>
+                </tr>
+            </table>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    var set_type = '<{$set_type}>';
+
+    (function(){
+
+        $$('#dataAction input[name="set_type"][value="'+set_type+'"]').set('checked', 'checked');
+
+        var dataAction = $('dataAction');
+
+        dataAction.getElement('#save_set_type').addEvent('click', function(){
+            setChartData();
+        });
+
+        function setChartData(){
+            var params=dataAction.toQueryString();
+            dataAction.store('_data',params);
+            var url='index.php?<{$env.server.QUERY_STRING}>';
+            W.page(
+                    url,
+                    {
+                        data:params,
+                        method:'post',
+                        onComplete:function(){
+                            //if(_finder) _finder.filter.value=params;
+                        }
+                    }
+            );
+        }
+
+    })();
+
+
+    function on_off(obj){
+        var _url = 'index.php?app=ome&ctl=admin_crm_gift&act=ajax_set_derail';
+        var _data = 'on_or_off='+obj.value;
+
+        if(obj.value == 'on'){
+            $ES('#dealway').setStyle('display', 'block');
+        } else {
+            $ES('#dealway').setStyle('display', 'none');
+        }
+
+        new Request({
+            url : _url,
+            method : 'post',
+            data : _data,
+            onSuccess: function(responseText){
+                $obj = JSON.decode(responseText);
+                if($obj){
+                    alert('设置成功');
+                }
+            }
+        }).send();
+    }
+
+    function dealways(obj){
+        var _url = 'index.php?app=ome&ctl=admin_crm_gift&act=ajax_set_dealway';
+        var _data = 'dealways='+obj.value;
+        new Request({
+            url : _url,
+            method : 'post',
+            data : _data,
+            onSuccess: function(responseText){
+                $obj = JSON.decode(responseText);
+                if($obj){
+                    alert('设置成功');
+                }
+            }
+        }).send();
+    }
+</script>

@@ -1,0 +1,104 @@
+<form method="post" id="instock_appropriation_form" name="instock_appropriation_form" action="index.php?app=console&ctl=admin_iostockorder&act=doCancelIostockin">
+  <div class="tableform">
+    <h3>调拨入库取消</h3>
+    <div class="division">
+      <h5>基本信息</h5>
+      <table border="0" cellspacing="0" cellpadding="0" class="gridlist">
+         <thead>
+         <tr>
+          <td width="10%" align="right" nowrap="nowrap">入库单名称:</td>
+          <td width="40%">
+            <input type="text" size="32" id="iostockorder_name" name="iostockorder_name" value="<{$cur_date}>" />
+          </td>
+           </tr>
+           <tr>
+          <td align="right">调入仓:</td>
+          <td width="40%"><{$to_branch_name}></td>
+          <td width="10%" align="right">退回仓:</td>
+          <td><{$from_branch_name}></td>
+        </tr>
+        <tr>
+          <td align="right">入库类型:</td>
+          <td>调拨入库</td>
+        </tr>
+        </thead>
+      </table>
+      
+      <h5 style="margin-top:10px;">入库单明细</h5>
+      <div class="division">
+			<table border="0" cellspacing="0" cellpadding="0" class="gridlist">
+			<col style="width:10%;"></col>
+			<col style="width:18%;"></col>
+			<col style="width:10%;"></col>
+			<col style="width:10%;"></col>
+			<col style="width:6%;"></col>
+			<col style="width:6%;"></col>
+			<col style="width:6%;"></col>
+			<thead>
+				<tr>
+				    <th>货号</th>
+				    <th>货品名称</th>
+				    <th>规格</th>
+				    <th>条码</th>
+				    <th>入库数量</th>
+				    <th>单价</th>
+				    <th>合计</th>
+				</tr>
+			</thead>
+			<{foreach from=$iso_items item=item}>
+			<tbody>
+			<tr>
+			    <td><{$item.bn}></td>
+			    <td><{$item.product_name}></td>
+			    <td><{$item.spec_info}></td>
+			    <td><{$item.barcode}></td>
+			    <td><{$item.nums}></td>
+			    <td><{$item.price}></td>
+			    <td><{$item.total_price}></td>
+			</tr>
+			</tbody>
+			<{/foreach}>
+			</table>
+			<br />
+            <div style="color:#5b5b5b" align="right">入库总量: <span><{$total_stockin_number}></span>&nbsp;&nbsp;总金额: <span><{$total_stockin_price}></span></div>
+		</div>
+      
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top:10px;">
+      <tr>
+        <td width="10%" align="right">备注:</td>
+        <td align="left"><textarea id="memo" maxth="255" rows="3" cols="80%" name="memo" type="textarea"></textarea></td>
+      </tr>
+      <tr>
+        <td align="right">经办人:</td>
+        <td align="left"><input name="operator" type="text" value="<{$operator}>" size="15" vtype="required"/></td>
+      </tr>
+    </table>
+    
+    <div id="cc" class="noprint table-action"> 
+        <{button type="button" id="instock-appropriation-cancel-btn" label="确认"}> &nbsp; 
+        <{button type="button" class="btn-secondary" id="return-btn" label="关 闭" onclick="javascript:void(window.close());"}>
+    </div>
+    
+    <input type="hidden" name="iso_id" value="<{$iso_id}>" />
+    
+  </div>
+</form>
+
+<script>
+$('instock-appropriation-cancel-btn').addEvent('click',function(e){
+	if (!confirm('确认要取消此次调拨入库操作吗？调拨数量将会返回到原仓库中。')){
+		 return false;		
+	}
+	_form = $('instock_appropriation_form');
+    _form.store('target',{
+        onSuccess:function(){
+        	opener.finderGroup['<{$env.get.finder_id}>'].refresh.delay(100,opener.finderGroup['<{$env.get.finder_id}>']);
+        	setTimeout('window.close()',200);
+        }
+    });
+    _form.fireEvent('submit',{stop:$empty});
+});
+</script>
+
+
+

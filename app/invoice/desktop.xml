@@ -1,0 +1,14 @@
+<desktop>
+    <permissions>
+		<!--订单发票权限-->
+		<permission id="invoice_list">订单发票列表</permission>
+		<permission id="invoice_manager">订单发票设置</permission>
+    </permissions>
+	
+    <workground name="财务" id="finance_center" order="400">
+		<menugroup name="订单发票管理">
+            <menu controller='admin_order' action='index' permission='invoice_list' display='true' order='1000300'>发票列表</menu>
+            <menu controller='admin_order_setting' action='index' permission='invoice_manager' display='true' order='1000400'>发票设置</menu>
+        </menugroup>
+    </workground>
+</desktop>

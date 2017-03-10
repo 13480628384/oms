@@ -1,0 +1,286 @@
+<link rel="stylesheet" type="text/css" href="<{$env.app.res_url}>/style.css" media="screen" />
+<form action="index.php?app=<{$env.get.app}>&ctl=<{$env.get.ctl}>&act=save" method="post" id="order_frm" name="order_frm">
+    <div id="gEditor-Body">
+      <div class="spage-main-box">
+          <div class="tableform">
+          <div id="x-g-basic" class="goods-detail">
+            <div class="edit_box">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="gridlist">
+              	<thead>
+                <tr>
+                  <th align="left">发票相关信息</th>
+                </tr>
+                </thead>
+              </table>
+            <div class="h_10px"></div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="90" align="center" nowrap="nowrap"><strong>&nbsp;&nbsp;&nbsp;订单号：</strong></td>
+                  <td><strong>&nbsp;<{$item.order_bn}></strong></td>
+                  <td width="130" align="right"><strong>运费：</strong></td>
+                  <td>&nbsp;&yen;<{$item.cost_freight}></td>
+              </tr>
+                <tr>
+                  <td align="center" nowrap="nowrap"><strong>订单总额：</strong></td>
+                  <td><span class="red">&nbsp;&yen;<{$item.total_amount}></span></td>
+                  <td align="right"><strong>已支付金额：</strong></td>
+                  <td>&nbsp;&yen;<{$item.payed}></td>
+                </tr>
+                <tr>
+                  <td align="center" nowrap="nowrap"><strong>发票类型：</strong></td>
+                  <td><input type="radio" name="item[type_id]" value="0" <{if $item.type_id != '1'}> checked="checked"<{/if}>>普通&nbsp;&nbsp;&nbsp;<input type="radio" name="item[type_id]" value="1" <{if $item.type_id == '1' }>checked="checked"<{/if}>>专业</td>
+                  <td align="right"><strong>是否打印：</strong></td>
+                  <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="item[is_print]" value="1" <{if $item.is_print != '2'}> checked="checked"<{/if}> >是&nbsp;&nbsp;&nbsp;<input type="radio" name="item[is_print]" value="2" <{if $item.is_print == '2' }>checked="checked"<{/if}>>作废发票</td>
+                </tr>
+                
+                <tr>
+                  <td align="center" nowrap="nowrap"><strong>开票金额：</strong></td>
+                  <td colspan="3">&nbsp;&yen; <{input type="number" size="8" maxlength="10" name="item[amount]" id="amount" required='required' value=$item.amount}> <em><font color="red">&nbsp;&nbsp;*</font></em></td>
+                </tr>                
+                
+                <tr>
+                    <td align="center" nowrap="nowrap"><strong>发票内容：</strong></td>
+                    <td><select name="item[content]" class="x-input-select inputstyle" id="titles_id" type="select">
+                      <{foreach from=$item.conf_title key=key item=val}>
+                      <option value="<{$val}>" <{if $item.content eq $val}>selected="selected"<{/if}> ><{$val}></option>
+                      <{/foreach}>
+                      </select> <em><font color="red">*</font></em></td>
+                    <td align="right"><strong>发票抬头：</strong></td>
+                    <td><{input type="title" size="60" name="item[title]" id="title" maxlength="100" required='required' value=$item.title}></td>
+                </tr>
+                <tr>
+                  <td align="center" nowrap="nowrap"><strong>发票备注：</strong></td>
+                  <td colspan="3"><{input type="textarea" name="item[remarks]" id="remarks" cols="78" rows="3" required='required' maxlength="150" value=$item.remarks}><br>
+                    <span class="color_1">备注信息文字长度，请不要超过255字节</span></td>
+                </tr>
+              </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="gridlist">
+            	<thead>
+                    <tr>
+                    <th>客户信息</th>
+                    </tr>
+              </thead>
+            </table>
+            <div class="h_10px"></div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                  <td width="100" align="right" nowrap="nowrap"><strong>客户名称：</strong></td>
+                  <td><{input type="title" size="30" name="item[tax_company]" id="tax_company" maxlength="50" required='required' value=$item.tax_company}></td>
+                  <td><strong>客户电话：</strong></td>
+                  <td><{input type="title" size="30" name="item[ship_tel]" id="ship_tel" maxlength="30" required='required' value=$item.ship_tel}></td>
+              </tr>
+                <tr>
+                  <td align="right" nowrap="nowrap"><strong>客户开户银行：</strong></td>
+                  <td><{input type="title" size="30" name="item[ship_bank]" id="ship_bank" maxlength="30" required='required' value=$item.ship_bank}></td>
+                  <td><strong>客户银行账号</strong></td>
+                  <td><{input type="number" size="32" name="item[ship_bank_no]" id="ship_bank_no" maxlength="32" required='required' value=$item.ship_bank_no}></td>
+              </tr>
+                <tr>
+                  <td align="right"><strong>客户税号：</strong></td>
+                  <td colspan="3"><{input type="title" size="32" name="item[ship_tax]" id="ship_tax" maxlength="32" required='required' value=$item.ship_tax}></td>
+                </tr>
+                <tr>
+                  <td align="right"><strong>收货地区：</strong></td>
+                  <td colspan="3">&nbsp;<{input app=ectools class="x-input" type="region" name="item[ship_area]" id="ship_area" value="{$item.ship_area}" }></td>
+                </tr>
+                <tr>
+                  <td align="right"><strong>收货地址：</strong></td>
+                  <td colspan="3"><{input type="title" size="60" name="item[ship_addr]" id="ship_addr" maxlength="100" required='required' value=$item.ship_addr}> <em><font color="red">&nbsp;&nbsp;*</font></em></td>
+                </tr>
+                <tr>
+                      <td>&nbsp;
+                      <{input type="hidden" name="item[id]" value=$item.id}>
+                      <{input type="hidden" name="tax_rate" id="tax_rate" value=$item.tax_rate}>
+                      <{input type="hidden" name="total_amount" id="total_amount" value=$item.total_amount}>
+                      </td>
+                      <td><div class="table-action text_left"><{if $item.id}><{button label="保存发票信息" type="button" id="btn_submit" name="btn_submit" }><{else}><{button label="添加新记录" type="button" id="btn_submit" name="btn_submit" }><{/if}></div></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+			  </table>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+</form>
+<style type="text/css">
+.dialog .dialog-content-body { background:#fff; border:none; }
+.dialog .tableform { background: none repeat scroll 0 0 #F8F8F8; border: 1px solid #D9D9D9; }
+.gridlist thead th { height:27px; line-height:27px; padding-left:12px;  }
+.edit_box { padding:10px 20px 5px 20px; }
+.h_10px { clear:both; width:100%; height:10px; }
+</style>
+<script language="javascript">
+function getStatus()
+{
+	var is_status		= 0;
+	var radioObj		= document.getElementsByName("item[type_id]");
+	for(var i=0; i<radioObj.length; i++)
+	{
+		if(radioObj[i].checked){
+			var is_status		= radioObj[i].value;	
+		}	
+	}
+	return is_status;
+}
+function clearNoNum(obj)
+{
+	obj.value = obj.value.replace(/[^\d.]/g,"");
+	obj.value = obj.value.replace(/^\./g,"");
+	obj.value = obj.value.replace(/\.{2,}/g,".");
+	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+}
+
+function submit_frm()
+{
+	var is_status		= getStatus();
+	var amount			= document.getElementById("amount").value;
+	var title			= document.getElementById("title").value;
+	var remarks			= document.getElementById("remarks").value;
+	var tax_company		= document.getElementById("tax_company").value;
+	var ship_tax		= document.getElementById("ship_tax").value;
+	var ship_tel		= document.getElementById("ship_tel").value;
+	var ship_bank		= document.getElementById("ship_bank").value;
+	var ship_bank_no	= document.getElementById("ship_bank_no").value;
+	var ship_addr		= document.getElementById("ship_addr").value;
+	
+	var is_print		= 0;
+	var radioObj		= document.getElementsByName("item[is_print]");
+	for(var i=0; i<radioObj.length; i++)
+	{
+		if(radioObj[i].checked){
+			var is_print		= radioObj[i].value;	
+		}
+	}
+	
+	if(is_print != 2)
+	{
+		if(!amount)
+		{
+			alert("请填写开票金额");	
+			document.getElementById("amount").focus();
+			return false;
+		}
+		if(!title)
+		{
+			alert("请填写发票抬头");
+			document.getElementById("title").focus();
+			return false;
+		}
+		if(!tax_company)
+		{
+			alert("请填写客户名称");
+			document.getElementById("tax_company").focus();
+			return false;
+		}
+	}
+	
+	if(is_status == '1')
+	{
+		if(!remarks)
+		{
+			alert("请填写发票备注");
+			document.getElementById("remarks").focus();
+			return false;
+		}
+		
+		if(!ship_tel)
+		{
+			alert("请填写客户电话");
+			document.getElementById("ship_tel").focus();
+			return false;
+		}
+		if(!ship_tax)
+		{
+			alert("请填写客户的税务号");
+			document.getElementById("ship_tax").focus();
+			return false;
+		}
+		if(!ship_bank)
+		{
+			alert("请填写客户开户银行");
+			document.getElementById("ship_bank").focus();
+			return false;
+		}
+		if(!ship_bank_no)
+		{
+			alert("请填写客户银行账号");
+			document.getElementById("ship_bank_no").focus();
+			return false;
+		}
+		if(!ship_addr)
+		{
+			alert("请填写收货地址");
+			document.getElementById("ship_addr").focus();
+			return false;
+		}
+	}
+
+	if(is_print == 2)
+	{
+		if(confirm("作废当前的订单发票将不能在做打印处理，是否继续？"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;	
+		}
+	}
+	else
+	{
+		return true;
+	}
+}
+
+(function()
+{
+	var _form	= $('order_frm');
+	var btn		= $('btn_submit');
+	var finder	= finderGroup['<{$env.get.finder_id}>'];
+
+	
+	_form.store('target',{
+		onSuccess:function(response){
+			var hash_res_obj = JSON.decode(response);
+		
+			if (hash_res_obj.success != undefined && hash_res_obj.success != "")
+			{
+				try{
+					var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+				}catch(e){}
+				
+				if(_dialogIns)
+				{
+					_dialogIns.close();
+					window.finderGroup['<{$env.get.finder_id}>'].refresh();
+				}
+			}
+		}
+	});
+	
+    $('btn_submit').addEvent('click',function()
+	{
+		var flag		= submit_frm();
+		if(flag)
+		{
+			_form.fireEvent('submit',{stop:$empty});	
+		}
+    });
+	
+	$ES("input[type=text]").each(function(el,i)
+	{
+        el.addEvent('keydown',function(e)
+		{
+			if(e.code==13){
+				var flag		= submit_frm();
+				if(flag)
+				{
+					_form.fireEvent('submit',{stop:$empty});	
+				}
+			}
+        });
+    });	
+})();
+</script>

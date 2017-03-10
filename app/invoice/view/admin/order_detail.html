@@ -1,0 +1,214 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <td >
+        <div class="tableform">
+          <table cellspacing="0" cellpadding="0" border="0" class="orderdetails_basic">
+            <tbody>
+              <tr>
+                <td valign="top" >
+                  <h4>发票信息</h4>
+                  <div class="division">
+                    <table cellspacing="0" cellpadding="0"  border="0">
+                      <tbody>
+                        <{if $item.delivery_id}>
+                        <tr style="display:none;">
+                          <th >发货单编号：</th>
+                          <td><strong><{$item.delivery_id}></strong></td>
+                        </tr>
+                        <{/if}>
+                        <{if $dlyArr.delivery_bn}>
+                        <tr>
+                          <th >发货单号：</th>
+                          <td><strong><{$dlyArr.delivery_bn}></strong></td>
+                        </tr>
+                        <{/if}>
+                        <tr>
+                          <th >发票类型：</th>
+                          <td><b><{$item.type_id}></b></td>
+                        </tr>
+                        <tr>
+                          <th >开票金额：</th>
+                          <td><span class="red"><{if $receivable>0}><{$receivable}><{else}><{$item.amount|cur}><{/if}></span></td>
+                        </tr>
+                        <tr>
+                          <th >税金：</th>
+                          <td><{if $item.is_status == '已开票'}><span class="red"><{$item.cost_tax|cur}></span><{/if}></td>
+                        </tr>
+                        <tr>
+                          <th >税率：</th>
+                          <td><{if $item.is_status == '已开票'}><{$item.tax_rate}>%<{/if}></td>
+                        </tr>
+                        <tr>
+                          <th >开票状态：</th>
+                          <td><{$item.is_status}></td>
+                        </tr>
+                        <{if $item.dateline}>
+                         <tr>
+                          <th >开票时间：</th>
+                          <td><{$item.print_time|cdate}></td>
+                        </tr> 
+                       <{/if}>
+                      </tbody>
+                    </table>
+                    </div>
+                  </td>
+                <td valign="top" ><h4>订单信息</h4>
+                  <div class="division">
+                    <table cellspacing="0" cellpadding="0"  border="0">
+                      <tbody>
+                        <tr>
+                          <th width="80" nowrap="nowrap" >订单编号：</th>
+                          <td><strong><{$item.order_bn}></span></strong></td>
+                        </tr>
+                        <tr>
+                          <th >订单总额：</th>
+                          <td><span class="red"><{$orders.total_amount|cur}></span></td>
+                        </tr>
+                        <tr>
+                          <th >商品金额：</th>
+                          <td><span class="red"><{$orders.cost_item|cur}></span></td>
+                        </tr>
+                        <tr>
+                          <th >付款状态：</th>
+                          <td><{$orders.pay_status}></td>
+                        </tr>
+                        <tr>
+                          <th >发货状态：</th>
+                          <td><{$orders.ship_status}></td>
+                        </tr>
+                        <tr>
+                          <th >打印状态：</th>
+                          <td><{$orders.print_status}></td>
+                        </tr>
+                        <{if $item.print_num}>
+                        <tr>
+                            <th >打印次数：</th>
+                            <td><{$item.print_num}>次</td>
+                        </tr>
+                        <{/if}>
+						<{if $dlyArr.logi_name}>
+                        <tr>
+                            <th >物流公司：</th>
+                            <td><b><{$dlyArr.logi_name}></b></td>
+                        </tr>
+                        <{/if}>
+                      </tbody>
+                    </table>
+                </div></td>
+                <td valign="top" ><h4>发票详情</h4>
+                  <div class="division">
+                    <table cellspacing="0" cellpadding="0"  border="0">
+                      <tbody>
+                        <tr>
+                          <th width="80" nowrap="nowrap" >发票抬头：</th>
+                          <td><{$item.title}></td>
+                        </tr>
+                        <tr>
+                          <th >发票号：</th>
+                          <td><span class="amount"><{$item.invoice_no}></span></td>
+                        </tr>
+                        <tr>
+                          <th >批次号：</th>
+                          <td><span class="amount"><{$item.batch_number}><{$item.dly}></span></td>
+                        </tr>
+                        <tr>
+                          <th >发票内容：</th>
+                          <td><{$item.content}></td>
+                        </tr>
+                        <tr>
+                          <th >发票备注：</th>
+                          <td><{$item.remarks}></td>
+                        </tr>
+                        <tr>
+                          <th >操作人：</th>
+                          <td><{if $item.operator}><span class="lnk"><{$item.operator_name}></span><{/if}></td>
+                        </tr>
+                       <{if $item.print_time}>
+                        <tr>
+                          <th >最后打印日期：</th>
+                          <td><{$item.print_time|cdate}></td>
+                        </tr>
+                      <{/if}>
+                    <{if $dlyArr.logi_name}>
+                    <tr>
+                        <th >物流运单号：</th>
+                        <td><b><{$dlyArr.logi_no}></b></td>
+                    </tr>
+                    <{/if}>
+                      </tbody>
+                    </table>
+                </div></td>
+                <td valign="top" >
+                  <h4>客户信息</h4>
+                  <div class="division">
+                    <table cellspacing="0" cellpadding="0"  border="0">
+                      <tbody>
+                        <tr>
+                          <th width="80" nowrap="nowrap" >客户名称：</th>
+                          <td><{$item.tax_company}></td>
+                        </tr>
+                        <tr>
+                          <th >客户收货地区：</th>
+                          <td><{$item.ship_area}></td>
+                        </tr>
+                        <tr>
+                          <th >客户地址：</th>
+                          <td><{$item.ship_addr}></td>
+                        </tr>
+                        <tr>
+                          <th >客户电话：</th>
+                          <td><{$item.ship_tel}></td>
+                        </tr>
+                        <tr>
+                          <th >客户税号：</th>
+                          <td><{$item.ship_tax}></td>
+                        </tr>
+                        <tr>
+                          <th >客户开户银行：</th>
+                          <td><{$item.ship_bank}></td>
+                        </tr>
+                        <tr>
+                          <th >客户银行账号：</th>
+                          <td><{$item.ship_bank_no}></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div></td>          
+          </tr>
+      </tbody></table>
+      </div>
+</td></tr>
+<tr><td>
+    <div class="tableform">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="finderInform">
+        
+          <tbody>
+           <tr><th><strong>买家留言：</strong></th><td>
+           <{if $orders.custom_mark}>
+             <{foreach from=$orders.custom_mark item=val}>
+             <div id="memo_show">
+              <b><{$val.op_content|escape:"HTML"}></b> <{$val.op_time}> by <{$val.op_name}>
+            </div>
+            <{/foreach}>
+          <{/if}>
+          </td></tr>
+          <tr><th><strong>订单备注：</strong></th><td>
+            <{if $orders.mark_text}>
+            <{foreach from=$orders.mark_text item=val}>
+            <div id="memo_show">
+            <b><{$val.op_content|escape:"HTML"}></b> <{$val.op_time|cdate:FDATE}> by <{$val.op_name}>
+          </div>
+          <{/foreach}>
+          <{/if}>
+        </td></tr>
+        </tbody>
+        </table>
+    </div>
+</td></tr>
+</tbody>
+</table>
+<style type="text/css">
+.finder-detail .tableform table td { vertical-align:top; }
+.finder-detail .tableform th { width:70px; }
+</style>

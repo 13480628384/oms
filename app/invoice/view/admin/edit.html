@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="<{$env.app.res_url}>/style.css" media="screen" />
+<form action="index.php?app=<{$env.get.app}>&ctl=<{$env.get.ctl}>&act=save&_finder%5Bfinder_id%5D=3fbf60" method="post" id="order_frm" name="order_frm">
+    <div id="gEditor-Body">
+      <div class="spage-main-box">
+          <div class="edit_title"><h3>打印发票设置</h3></div>
+          <div class="tableform">
+          <div id="x-g-basic" class="goods-detail">
+              <div>
+                <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                      <th>发票内容：</th>
+                      <td>
+                      	<select name="title_id" class="x-input-select inputstyle" id="titles_id" type="select">
+                        <{foreach from=$item.title key=key item=val}>
+                        <option value="<{$key}>"><{$val}></option>
+                        <{/foreach}>
+                        </select> <em><font color="red">*&nbsp;&nbsp;</font></em><button class="btn addSpec btn-has-icon" app="desktop" type="button" onclick="new Dialog('index.php?app=invoice&ctl=admin_order_setting&act=manage&finder_id=<{$env.get.finder_id}>',{title:'管理发票内容',width:600,height:450})"><span><span><i class="btn-icon"><img src="/app/desktop/statics/bundle/btn_add.gif" app="desktop"></i>管理内容</span></span></button></td>
+                    </tr>
+                    <tr style="display:none;">
+                      <th>税率：</th>
+                      <td><{input type="number" size="5" maxlength="2" name="item[tax_rate]" required='required' value=$item.tax_rate}> <em style="font-weight:bold;">%</em></td>
+                    </tr>
+                    <tr>
+                      <th>销方税号：</th>
+                      <td><{input type="text" size="32" maxlength="32" name="item[tax_no]" required='required' value=$item.tax_no}></td>
+                    </tr>
+                    <tr>
+                        <th>销方银行：</th>
+                        <td><{input type="text" size="30" maxlength="32" name="item[bank]" required='required' value=$item.bank}></td>
+                    </tr>
+                    <tr>
+                        <th>销方银行账号：</th>
+                        <td><{input type="number" size="60" name="item[bank_no]" maxlength="30" required='required' value=$item.bank_no}></td>
+                    </tr>
+              
+                    <tr>
+                        <th>销方联系电话：</th>
+                        <td><{input type="text" size="30" name="item[telphone]" maxlength="30" required='required' value=$item.telphone}></td>
+                    </tr>
+              
+                    <tr>
+                        <th>销方联系地址：</th>
+                        <td><{input type="textarea" name="item[address]" cols="78" rows="5" required='required' maxlength="150" value=$item.address}><br><span class="color_1">联系地址文字长度，请不要超过255字节</span></td>
+                    </tr>                    
+                    <tr>
+                      <th>&nbsp;</th>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <th><{input type="hidden" name="item[sid]" value=$item.sid}>&nbsp;</th>
+                      <td><div class="table-action text_left"><{if $item.sid}><{button label="保存记录" type="submit" name="submit" }><{else}><{button label="添加新记录" type="submit" name="submit" }><{/if}></div></td>
+                    </tr>
+                    
+                    </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+</form>
+<script language="javascript">
+(function()
+{
+	var _form	= $('order_frm');
+	
+	$ES("input[type=text]").each(function(el,i)
+	{
+        el.addEvent('keydown',function(e)
+		{
+			if(e.code==13)
+			{
+				_form.fireEvent('submit',{stop:$empty});
+			}
+        });
+    });
+	
+})();
+</script>

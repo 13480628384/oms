@@ -1,0 +1,23 @@
+
+<desktop>
+
+    <permissions>
+        <permission id="crm_basic">基本设置</permission>
+        <permission id="crm_index">CRM赠品管理</permission>
+
+    </permissions>
+           
+    <workground name="系统集成" id="channel_center" order="1100">
+         <menugroup name="CRM">
+             <menu controller='admin_setting' action='basic' permission='crm_basic' display='true' order="1002">基本配置</menu>
+             <!--<menu controller='admin_gift' action='index' permission='crm_index' display='true' order="1003">赠品管理</menu>-->
+        </menugroup>
+    </workground>
+
+    <workground name="系统" id="setting_tools" order="800">
+        <menugroup name="赠品管理">
+            <menu controller='admin_gift' action='index' permission='crm_index' display='true' order="1003">CRM赠品管理</menu>
+        </menugroup>
+    </workground>
+    
+</desktop>

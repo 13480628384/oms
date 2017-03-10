@@ -1,0 +1,61 @@
+<style>
+    #role_content div { margin-bottom: 15px; font-size: 12px;}
+    #role_content div span {color:#666666;}
+    #role_content input {height: 18px; line-height: 18px; margin-bottom: 15px;}
+    #btn_add_product {margin-right: 25px;}
+    #btn_add_product_pkg {margin-left: 25px;}
+</style>
+<div id="role_content">
+    <div>活动SKU: &nbsp;&nbsp;<span>(输入活动商品的SKU,多个用逗号分隔。如 EH-SHIRT-L,EH-OTHER-X)</span></div>
+<!--    <input type="text" name="s_skus" value="<{$init.content.sku}>" size="90"/> <br/>-->
+    <button id="btn_add_product" class="btn" type="button">
+        <span>
+        <span>添加普通商品货号</span>
+        </span>
+    </button>
+    <button id="btn_add_product_pkg" class="btn" type="button">
+        <span>
+        <span>添加捆绑商品货号</span>
+        </span>
+    </button>
+    <br/>    
+    <h4>已添加的普通商品货号：</h4><input type="text" name="s_skus" value="<{$init.content.sku}>" size="90"/> <br/>
+    <h4>已添加的捆绑商品货号：</h4><input type="text" name="s_pkg_skus" value="<{$init.content.pkg_sku}>" size="90"/> <br/>
+    <div>选择生效的开始和结束时间：&nbsp;&nbsp;<span>(如长期有效，请留空)</span></div>
+    从&nbsp;<{input type="time" name="s_start" value="{$init.content.start}"}>&nbsp;开始至&nbsp;<{input type="time" name="s_end" value="{$init.content.end}"}> 结束
+</div>
+<script>
+    var callurl='index.php?app=ome&ctl=admin_order&act=getProducts', store=[];
+    var callurlpkg='index.php?app=omepkg&ctl=admin_pkg&act=getPkgGoods', store=[];
+    function init(rs,s_name){
+        var bns='';
+        Object.each(rs,function(value){
+             bns += value.bn+',';
+        });
+        bns=bns.substring(0,bns.length-1);
+        $('role_content').getElement('input[name='+s_name+']').value = bns;
+    }   
+    $('btn_add_product').addEvent('click',function(e){
+        var url='index.php?app=desktop&act=alertpages&goto='+encodeURIComponent('index.php?app=ome&ctl=admin_order&act=findProduct');
+        var s_skus = "s_skus";
+        new finderDialog(url,{params:{url:callurl,name:'product_id[]'},width:1000,height:660,
+        onCallback:function(rs){
+          if(!rs)return;
+          rs=JSON.decode(rs);
+          init(rs,s_skus);
+        }
+      });
+    });
+
+    $('btn_add_product_pkg').addEvent('click',function(e){
+        var url='index.php?app=desktop&act=alertpages&goto='+encodeURIComponent('index.php?app=omepkg&ctl=admin_pkg&act=findPkgProduct');
+        var s_pkg_skus = "s_pkg_skus";
+        new finderDialog(url,{params:{url:callurlpkg,name:'goods_id[]'},width:1000,height:660,
+        onCallback:function(rs){
+          if(!rs)return;
+          rs=JSON.decode(rs);
+          init(rs,s_pkg_skus);
+        }
+      });
+    });
+</script>

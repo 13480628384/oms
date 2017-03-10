@@ -1,0 +1,16 @@
+<services>
+	<service id="ome_create_order_after">
+        <class>invoice_order</class>
+    </service>
+	
+	<service id="desktop_finder.invoice_mdl_order">
+		<class>invoice_finder_order</class>
+	</service>
+	<service id="desktop_finder.invoice_mdl_order_setting">
+		<class>invoice_finder_order_setting</class>
+	</service>
+
+    <service id="extend_filter_invoice_mdl_order">
+        <class>invoice_finder_extend_filter_order</class>
+    </service>
+</services>
